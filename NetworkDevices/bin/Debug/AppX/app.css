@@ -1,0 +1,98 @@
+/* App wide css */
+
+* {
+    box-sizing:border-box;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    padding: 5px;
+    overflow: auto;
+	background-color: #F0F0F0;
+}
+
+#main {
+    position: absolute;
+    top: 0px; 
+    left: 0px; 
+    bottom: 0px; 
+    right: 0px;
+    display: flex;
+    flex-flow: column;
+}
+
+#main > nav {
+    flex: 0 0 auto;
+    padding: 5px 10px 5px 10px;
+}
+
+#appTitle {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+#controlsGroup {
+    float: right;
+    margin-top: 5px;
+}
+
+ul {
+    flex: 1 1 auto;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    list-style-type: none;
+}
+
+li {
+    border: 0px solid #E0E0E0;
+    border-radius: 1px;
+    padding: 5px;
+    margin-bottom: 1px;
+    background: white;
+    color: Black;
+}
+
+a {
+	color: black;	
+}
+
+a:hover {
+	color: black;
+}
+
+#friendName {
+    font-size: 12pt;
+}
+
+#details {
+    font-size: 9pt;
+    color: #505050
+}
+
+#ip {
+	float: right;
+	color: darkgrey;
+	font-size: 8pt;
+}
+
+#settingsLink {
+	float: right;
+	font-size: 8pt;
+}
+
+.btn {
+	transition: opacity 1s;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+#showHiddenCheck {
+    margin-right: 5px;
+}

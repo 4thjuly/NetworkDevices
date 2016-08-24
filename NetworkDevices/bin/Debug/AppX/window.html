@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-ng-app data-ng-csp>
+
+<head>
+    <meta charset="utf-8">
+    <script src="window.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="jquery/jquery-2.0.3.min.js"></script>
+    <script src="jsUri/jsuri-1.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="util.js"></script>
+    <script src="ssdp.js"></script>
+    <script src="wsd.js"></script>
+    <script src="mdns.js"></script>
+    <script src="nbtutils.js"></script>
+    <script src="nbt.js"></script>
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="all">
+    <link href="app.css" rel="stylesheet">
+    <title> </title>
+</head>
+
+<body data-ng-controller="ListController">
+
+    <section id="main">
+        
+      <nav>
+        <h4 id='appTitle'>Network Devices</h4>
+		<span id='controlsGroup'>
+          <button id='showHiddenBtn' type="button" class="btn" data-ng-click="onToggleHidden()" accessKey="h" data-toggle="button" data-ng-show='hasHiddenItems'> <span id='showHiddenCheck' data-ng-show='showHidden'>&#10004;</span>SHOW HIDDEN</button>
+          <button id='refreshBtn' type="button" class="btn btn-default" data-ng-click="onRefresh()" accessKey="r">REFRESH</button>
+      	</span>
+	  </nav>
+    
+      <ul>
+        <li data-ng-repeat="device in deviceList" data-ng-show="showHidden||device.hasSettings">
+			  <div>
+                <span id="friendlyName">{{device.friendlyName}}</span>
+                <a id="settingsLink" href="{{device.presentationUrl}}" target="_blank" rel="tooltip" title="{{device.presentationUrl}}" data-ng-show="device.hasSettings">Settings</a>
+              </div>
+			<div>
+              <span id="details">{{device.model}} ({{device.manufacturer}})</span>
+			  <span id="ip">{{device.ip}}</span>
+        	</div>
+		</li>
+      </ul>
+        
+    </section>
+    
+</body>
+    
+</html>
