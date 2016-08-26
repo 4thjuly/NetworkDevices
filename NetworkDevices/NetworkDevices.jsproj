@@ -76,6 +76,7 @@
     <Content Include="images\Square44x44Logo.scale-200.png" />
     <Content Include="images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="images\StoreLogo.png" />
+    <Content Include="images\StoreLogo.scale-100.png" />
     <Content Include="images\Wide310x150Logo.scale-200.png" />
     <Content Include="jquery\jquery-2.0.3.min.js" />
     <Content Include="jsUri\jsuri-1.1.1.min.js" />
@@ -84,6 +85,7 @@
     <Content Include="nbt.js" />
     <Content Include="nbtutils.js" />
     <Content Include="network-devices.png" />
+    <Content Include="network-devices.scale-100.png" />
     <Content Include="ssdp.js" />
     <Content Include="util.js" />
     <Content Include="window.html" />

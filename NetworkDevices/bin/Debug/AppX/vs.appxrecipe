@@ -10,13 +10,13 @@
     <PackageArchitecture>neutral</PackageArchitecture>
     <PackageIdentityName>a0735e06-861a-4826-8db9-d7742873cef5</PackageIdentityName>
     <PackageIdentityPublisher>CN=Ian</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bld\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bld\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType>
     </RemoteDeploymentType>
     <PackageRegistrationPath>
     </PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
-    <RegisteredManifestChecksum>E3081B3685D2224E7E3E3984FF72B354BEB517422C2E0A801187E4BEFE924F43</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>FBF8B189966C3E5A93701120E499A03C167DDAC284039E7F7884A179E1943BF1</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>a0735e06-861a-4826-8db9-d7742873cef5_1.0.0.0_neutral__2xbmf2jyx4pdt</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>a0735e06-861a-4826-8db9-d7742873cef5_2xbmf2jyx4pdt!App</RegisteredUserModeAppID>
     <RegisteredPackageID>a0735e06-861a-4826-8db9-d7742873cef5</RegisteredPackageID>
@@ -25,146 +25,154 @@
     <JitOptimizationSuppressed>True</JitOptimizationSuppressed>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bin\Debug\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-08-24T05:44:00.939</Modified>
+      <Modified>2016-08-26T08:02:55.161</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\angular\angular.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\angular\angular.js">
       <PackagePath>angular\angular.js</PackagePath>
       <Modified>2016-08-22T05:25:05.494</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\js\bootstrap.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\js\bootstrap.js">
       <PackagePath>bootstrap\js\bootstrap.js</PackagePath>
       <Modified>2016-08-22T05:25:05.643</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\js\bootstrap.min.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\js\bootstrap.min.js">
       <PackagePath>bootstrap\js\bootstrap.min.js</PackagePath>
       <Modified>2016-08-22T05:25:05.745</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\jquery\jquery-2.0.3.min.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\jquery\jquery-2.0.3.min.js">
       <PackagePath>jquery\jquery-2.0.3.min.js</PackagePath>
       <Modified>2016-08-22T05:25:05.815</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\jsUri\jsuri-1.1.1.min.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\jsUri\jsuri-1.1.1.min.js">
       <PackagePath>jsUri\jsuri-1.1.1.min.js</PackagePath>
       <Modified>2016-08-22T05:25:05.848</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\mdns.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\mdns.js">
       <PackagePath>mdns.js</PackagePath>
       <Modified>2016-08-22T05:25:05.880</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\nbt.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\nbt.js">
       <PackagePath>nbt.js</PackagePath>
       <Modified>2016-08-22T05:25:05.890</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\nbtutils.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\nbtutils.js">
       <PackagePath>nbtutils.js</PackagePath>
       <Modified>2016-08-22T05:25:05.910</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\ssdp.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\ssdp.js">
       <PackagePath>ssdp.js</PackagePath>
-      <Modified>2016-08-24T06:18:59.126</Modified>
+      <Modified>2016-08-26T07:53:29.966</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\util.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\util.js">
       <PackagePath>util.js</PackagePath>
       <Modified>2016-08-22T05:25:05.951</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\window.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\window.js">
       <PackagePath>window.js</PackagePath>
       <Modified>2016-08-24T06:01:57.118</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\wsd.js">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\wsd.js">
       <PackagePath>wsd.js</PackagePath>
       <Modified>2016-08-22T05:25:05.999</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\app.css">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\app.css">
       <PackagePath>app.css</PackagePath>
       <Modified>2016-08-22T05:25:05.499</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap-theme.css">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap-theme.css">
       <PackagePath>bootstrap\css\bootstrap-theme.css</PackagePath>
       <Modified>2016-08-22T05:25:05.517</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap-theme.min.css">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap-theme.min.css">
       <PackagePath>bootstrap\css\bootstrap-theme.min.css</PackagePath>
       <Modified>2016-08-22T05:25:05.527</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap.css">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap.css">
       <PackagePath>bootstrap\css\bootstrap.css</PackagePath>
       <Modified>2016-08-22T05:25:05.535</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap.min.css">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\css\bootstrap.min.css">
       <PackagePath>bootstrap\css\bootstrap.min.css</PackagePath>
       <Modified>2016-08-22T05:25:05.546</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\css\default.css">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\css\default.css">
       <PackagePath>css\default.css</PackagePath>
       <Modified>2016-08-24T05:24:31.944</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.eot">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.eot">
       <PackagePath>bootstrap\fonts\glyphicons-halflings-regular.eot</PackagePath>
       <Modified>2016-08-22T05:25:05.567</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.svg">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.svg">
       <PackagePath>bootstrap\fonts\glyphicons-halflings-regular.svg</PackagePath>
       <Modified>2016-08-22T05:25:05.580</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.ttf">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.ttf">
       <PackagePath>bootstrap\fonts\glyphicons-halflings-regular.ttf</PackagePath>
       <Modified>2016-08-22T05:25:05.594</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.woff">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bootstrap\fonts\glyphicons-halflings-regular.woff">
       <PackagePath>bootstrap\fonts\glyphicons-halflings-regular.woff</PackagePath>
       <Modified>2016-08-22T05:25:05.599</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\LockScreenLogo.scale-200.png">
       <PackagePath>images\LockScreenLogo.scale-200.png</PackagePath>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\SplashScreen.scale-200.png">
       <PackagePath>images\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\Square150x150Logo.scale-200.png">
       <PackagePath>images\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\Square44x44Logo.scale-200.png">
       <PackagePath>images\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>images\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\StoreLogo.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\StoreLogo.png">
       <PackagePath>images\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\images\Wide310x150Logo.scale-200.png">
-      <PackagePath>images\Wide310x150Logo.scale-200.png</PackagePath>
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\StoreLogo.scale-100.png">
+      <PackagePath>images\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2015-09-21T00:30:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\network-devices.png">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\images\Wide310x150Logo.scale-200.png">
+      <PackagePath>images\Wide310x150Logo.scale-200.png</PackagePath>
+      <Modified>2015-09-21T00:30:08.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\network-devices.png">
       <PackagePath>network-devices.png</PackagePath>
       <Modified>2016-08-22T05:25:05.912</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\window.html">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\network-devices.scale-100.png">
+      <PackagePath>network-devices.scale-100.png</PackagePath>
+      <Modified>2016-08-22T05:25:05.912</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\window.html">
       <PackagePath>window.html</PackagePath>
       <Modified>2016-08-22T05:25:05.963</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Ian\Source\NetworkDevices\NetworkDevices\bin\Debug\ReverseMap\resources.pri">
+    <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\bin\Debug\ReverseMap\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2016-08-24T05:44:00.879</Modified>
+      <Modified>2016-08-26T08:02:55.107</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

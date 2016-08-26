@@ -19,13 +19,13 @@ var g_ssdpLocations = { };
 // The LOCATION should provide the various XML properties
 // Call the callback for each device that responds properly
 function ssdpSearch(deviceFoundCallback) {
-    var str = SSDP_DISCOVER;
+    //var str = SSDP_DISCOVER;
     g_ssdpLocations = { }; 
-    var buf = new ArrayBuffer(str.length);
-    var bufView = new Uint8Array(buf);	
-    for (var i=0, strLen=str.length; i<strLen; i++) {
-        bufView[i] = str.charCodeAt(i);
-    }
+    //var buf = new ArrayBuffer(str.length);
+    //var bufView = new Uint8Array(buf);	
+    //for (var i=0, strLen=str.length; i<strLen; i++) {
+    //    bufView[i] = str.charCodeAt(i);
+    //}
 
     //if (g_ssdpSearchSocket) {
     //    chrome.socket.destroy(g_ssdpSearchSocket.socketId);
@@ -58,10 +58,23 @@ function ssdpSearch(deviceFoundCallback) {
     //});
 
     g_ssdpSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
-    var hostName = new Windows.Networking.HostName("0.0.0.0");
-    g_ssdpSearchSocket.bindServiceNameAsync("0").done(
-        console.log("ssdp.bindServiceNameAsync")
-    );
+    var remoteHost = new Windows.Networking.HostName("239.255.255.250");
+    var ep = new Windows.Networking.EndpointPair(null, null, remoteHost, "1900");
+    g_ssdpSearchSocket.onmessagereceived = onMessageReceived;
+    g_ssdpSearchSocket.getOutputStreamAsync(ep).done(function (outputStream) {
+        console.log('getOutputStreamAsync done');
+        var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
+        dataWriter.writeString(SSDP_DISCOVER);
+        dataWriter.storeAsync().done(function () {
+            console.log('storeAsync done');
+        });
+    });
+}
+
+function onMessageReceived(eventArgs) {
+    var messageLength = eventArgs.getDataReader().unconsumedBufferLength;
+    var message = eventArgs.getDataReader().readString(messageLength);
+    console.log('Message Received: ' + message);
 
 }
 

@@ -17,6 +17,7 @@ images\Square150x150Logo.scale-200.png
 images\Square44x44Logo.scale-200.png
 images\Square44x44Logo.targetsize-24_altform-unplated.png
 images\StoreLogo.png
+images\StoreLogo.scale-100.png
 images\Wide310x150Logo.scale-200.png
 jquery\jquery-2.0.3.min.js
 jsUri\jsuri-1.1.1.min.js
@@ -24,6 +25,7 @@ mdns.js
 nbt.js
 nbtutils.js
 network-devices.png
+network-devices.scale-100.png
 ssdp.js
 util.js
 window.html
