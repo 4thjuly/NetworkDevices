@@ -66,7 +66,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\ssdp.js">
       <PackagePath>ssdp.js</PackagePath>
-      <Modified>2016-08-26T07:53:29.966</Modified>
+      <Modified>2016-08-26T08:10:30.011</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Ian\Documents\GitHub\NetworkDevices\NetworkDevices\util.js">
       <PackagePath>util.js</PackagePath>

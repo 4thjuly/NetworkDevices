@@ -74,7 +74,7 @@ function ssdpSearch(deviceFoundCallback) {
 function onMessageReceived(eventArgs) {
     var messageLength = eventArgs.getDataReader().unconsumedBufferLength;
     var message = eventArgs.getDataReader().readString(messageLength);
-    console.log('Message Received: ' + message);
+    console.log('Message Received: \r\n' + message);
 
 }
 
