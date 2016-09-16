@@ -3,4 +3,7 @@
   <PropertyGroup>
     <ReferenceCachePath>C:\Users\Ian\AppData\Local\Temp\NetworkDevices_refcache</ReferenceCachePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
