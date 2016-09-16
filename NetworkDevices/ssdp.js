@@ -62,7 +62,7 @@ function ssdpSearch(deviceFoundCallback) {
     g_ssdpSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
     var remoteHost = new Windows.Networking.HostName("239.255.255.250");
     var ep = new Windows.Networking.EndpointPair(null, null, remoteHost, "1900");
-    g_ssdpSearchSocket.onmessagereceived = onMessageReceived;
+    g_ssdpSearchSocket.onmessagereceived = function (eventArgs) { onMessageReceived(eventArgs, deviceFoundCallback) };
     g_ssdpSearchSocket.getOutputStreamAsync(ep).done(function (outputStream) {
         console.log('getOutputStreamAsync done');
         var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
@@ -73,12 +73,26 @@ function ssdpSearch(deviceFoundCallback) {
     });
 }
 
-function onMessageReceived(eventArgs) {
+function onMessageReceived(eventArgs, deviceFoundCallback) {
     var messageLength = eventArgs.getDataReader().unconsumedBufferLength;
     var message = eventArgs.getDataReader().readString(messageLength);
-    console.log('Message Received: \r\n' + message);
+    var remoteAddress = eventArgs.remoteAddress;
+    //console.log('Message Received: \r\n' + message);
 
-}
+    var info = getSsdpDeviceNotifyInfo(message);
+    var location = info["LOCATION"];
+				
+    // TODO - Validate location is absolute
+    console.log('onMessageReceived: loc:' + location);
+    //console.log('onMessageReceived:  st:' + info["ST"]);
+				
+    // Got a location, get the xml properties (unless it's a dup)
+    if (location && !g_ssdpLocations[location]) {
+        g_ssdpLocations[location] = true; 
+        var device = new Device(location, remoteAddress);
+        getSsdpDeviceXmlInfo(device, deviceFoundCallback);
+    }                   
+};
 
 // NOTIFY messages can sometimes be multicast
 function handleSsdpMulticastMessages(deviceFoundCallback) {
@@ -93,7 +107,7 @@ function handleSsdpMulticastMessages(deviceFoundCallback) {
     //});
     console.log('Joining multicast group: ssdp');
     g_ssdpMulticastSocket = new Windows.Networking.Sockets.DatagramSocket();
-    g_ssdpMulticastSocket.onmessagereceived = onMessageReceived;
+    g_ssdpMulticastSocket.onmessagereceived = function (eventArgs) { onMessageReceived(eventArgs, deviceFoundCallback) };
     g_ssdpMulticastSocket.bindServiceNameAsync("").done(function () {
         var ssdpMulticastHost = new Windows.Networking.HostName("239.255.255.250");
         g_ssdpMulticastSocket.joinMulticastGroup(ssdpMulticastHost);
@@ -102,39 +116,39 @@ function handleSsdpMulticastMessages(deviceFoundCallback) {
 
 }
 
-function ssdpRecvLoop(socketId, deviceFoundCallback) {
-//    console.log("ssdprl("+socketId+"):...");
-    chrome.socket.recvFrom(socketId, 65507, function (result) {
-        if (result.resultCode >= 0) {
-//            console.log("...ssdprl.recvFrom("+socketId+"): " + result.address + ":" + result.port);
-            var dv = new DataView(result.data);
-            var blob = new Blob([dv]);
-            var fr = new FileReader();
-            fr.onload = function (e) {
-                // var st = getServiceType(e.target.result);
-                var info = getSsdpDeviceNotifyInfo(e.target.result);
-                var location = info["LOCATION"];
+//function ssdpRecvLoop(socketId, deviceFoundCallback) {
+////    console.log("ssdprl("+socketId+"):...");
+//    chrome.socket.recvFrom(socketId, 65507, function (result) {
+//        if (result.resultCode >= 0) {
+////            console.log("...ssdprl.recvFrom("+socketId+"): " + result.address + ":" + result.port);
+//            var dv = new DataView(result.data);
+//            var blob = new Blob([dv]);
+//            var fr = new FileReader();
+//            fr.onload = function (e) {
+//                // var st = getServiceType(e.target.result);
+//                var info = getSsdpDeviceNotifyInfo(e.target.result);
+//                var location = info["LOCATION"];
 				
-				// TODO - Validate location is absolute
+//				// TODO - Validate location is absolute
 				
-//                console.log('   loc:' + location);
-//                console.log('   st:' + info["ST"]);
+////                console.log('   loc:' + location);
+////                console.log('   st:' + info["ST"]);
 				
-                // Got a location, get the xml properties (unless it's a dup)
-                if (location && !g_ssdpLocations[location]) {
-					g_ssdpLocations[location] = true; 
-                    var device = new Device(location, result.address);
-                    getSsdpDeviceXmlInfo(device, deviceFoundCallback);
-                }                   
-            };
-            fr.readAsText(blob);
-            ssdpRecvLoop(socketId, deviceFoundCallback);
-        } else {
-            // TODO: Handle error -4?
-            console.log("ssdprRecvFrom: Error: " + result.resultCode);
-        }
-    });   
-}
+//                // Got a location, get the xml properties (unless it's a dup)
+//                if (location && !g_ssdpLocations[location]) {
+//					g_ssdpLocations[location] = true; 
+//                    var device = new Device(location, result.address);
+//                    getSsdpDeviceXmlInfo(device, deviceFoundCallback);
+//                }                   
+//            };
+//            fr.readAsText(blob);
+//            ssdpRecvLoop(socketId, deviceFoundCallback);
+//        } else {
+//            // TODO: Handle error -4?
+//            console.log("ssdprRecvFrom: Error: " + result.resultCode);
+//        }
+//    });   
+//}
 
 function getSsdpDeviceNotifyInfo(data) {
     var lines = data.split("\r\n");
