@@ -57,6 +57,8 @@ function ssdpSearch(deviceFoundCallback) {
     //    });
     //});
 
+    handleSsdpMulticastMessages(deviceFoundCallback);
+
     g_ssdpSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
     var remoteHost = new Windows.Networking.HostName("239.255.255.250");
     var ep = new Windows.Networking.EndpointPair(null, null, remoteHost, "1900");
@@ -81,13 +83,23 @@ function onMessageReceived(eventArgs) {
 // NOTIFY messages can sometimes be multicast
 function handleSsdpMulticastMessages(deviceFoundCallback) {
     if (g_ssdpMulticastSocket) {
-        chrome.socket.destroy(g_ssdpMulticastSocket.socketId);
+        //chrome.socket.destroy(g_ssdpMulticastSocket.socketId);
+        g_ssdpMulticastSocket.close();
         g_ssdpMulticastSocket = null;
     }
-    createMulticastSocket("239.255.255.250", 1900, 4, function(socket) {
-        g_ssdpMulticastSocket = socket;
-        ssdpRecvLoop(socket.socketId, deviceFoundCallback);
+    //createMulticastSocket("239.255.255.250", 1900, 4, function(socket) {
+    //    g_ssdpMulticastSocket = socket;
+    //    ssdpRecvLoop(socket.socketId, deviceFoundCallback);
+    //});
+    console.log('Joining multicast group: ssdp');
+    g_ssdpMulticastSocket = new Windows.Networking.Sockets.DatagramSocket();
+    g_ssdpMulticastSocket.onmessagereceived = onMessageReceived;
+    g_ssdpMulticastSocket.bindServiceNameAsync("").done(function () {
+        var ssdpMulticastHost = new Windows.Networking.HostName("239.255.255.250");
+        g_ssdpMulticastSocket.joinMulticastGroup(ssdpMulticastHost);
+        console.log('Joined multicast group: ssdp');
     });
+
 }
 
 function ssdpRecvLoop(socketId, deviceFoundCallback) {
