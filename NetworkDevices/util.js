@@ -60,10 +60,11 @@ function fullyQualifyUrl(domain, url) {
     } else {
         // set the protocol
         uri.protocol('http');
-        // If it's relative, get the base of the domain and prepend it
-        if (!uri.host()) {
-            var domainUri = new Uri(domain);
-            uri.host(domainUri.host());
+        // If it looks relative, get the base of the domain and prepend it
+        var host = uri.host();
+        if (!host || host.endsWith('.html') || host.endsWith('.htm')) {
+            uri = new Uri(domain);
+            uri.setPath('/' + host);
         }
         return uri.toString();
     }
