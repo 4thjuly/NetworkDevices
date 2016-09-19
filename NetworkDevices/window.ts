@@ -36,7 +36,7 @@ function ListController($scope) {
     // This, for example, will skip lots of misc mdns services
     function searchForDevices(onDeviceFound) {
         Ssdp.ssdpSearch(onDeviceFound); 
-        //wsdSearch(onDeviceFound);
+        Wsd.wsdSearch(onDeviceFound);
         //mdnsSearch(onDeviceFound);
         //nbtSearch(onDeviceFound);
     }

@@ -61,64 +61,41 @@ var Wsd;
             bufView[i] = str.charCodeAt(i);
         }
         if (g_wsdSearchSocket) {
-            // chrome.socket.destroy(g_wsdSearchSocket.socketId);
             g_wsdSearchSocket.close();
             g_wsdSearchSocket = null;
         }
-        /*
-            chrome.socket.create("udp", function (socket) {
-                g_wsdSearchSocket = socket;
-                var socketId = socket.socketId;
-                chrome.socket.bind(socketId, "0.0.0.0", 0, function (result) {
-                    handleWsdHelloMessages(deviceFoundCallback);
-                    chrome.socket.sendTo(socketId, buf, "239.255.255.250", 3702, function (result) {
-                        console.log("wsdSearch wrote:" + + result.bytesWritten);
-                        wsdRecvLoop(socketId, deviceFoundCallback);
-                    });
-                    // UDP is unreliable so repeat the multicast a few times
-                    var repeat = 3;
-                    var timer = setInterval(function() {
-                        console.log('wsdSearch('+repeat+'):...');
-                        chrome.socket.sendTo(socketId, buf, "239.255.255.250", 3702, function() { });
-                        if (--repeat <= 0) clearInterval(timer);
-                    }, 1000 + (Math.random() * 1000));
+        g_wsdSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
+        var remoteHost = new Windows.Networking.HostName("239.255.255.250");
+        var ep = new Windows.Networking.EndpointPair(null, "", remoteHost, "3702");
+        g_wsdSearchSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback); };
+        g_wsdSearchSocket.bindEndpointAsync(null, "").done(function () {
+            g_wsdSearchSocket.joinMulticastGroup(remoteHost);
+            g_wsdSearchSocket.getOutputStreamAsync(ep).done(function (outputStream) {
+                console.log('wsd.getOutputStreamAsync done');
+                var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
+                dataWriter.writeString(buf);
+                dataWriter.storeAsync().done(function () {
+                    console.log('wsd.storeAsync done');
                 });
             });
-        */
-        handleWsdHelloMessages(deviceFoundCallback);
-        g_wsdSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
-        var ep = new Windows.Networking.EndpointPair(null, null, new Windows.Networking.HostName("239.255.255.250"), "3702");
-        g_wsdSearchSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback); };
-        g_wsdSearchSocket.getOutputStreamAsync(ep).done(function (outputStream) {
-            console.log('wsd.getOutputStreamAsync done');
-            var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
-            dataWriter.writeString(buf);
-            dataWriter.storeAsync().done(function () {
-                console.log('wsd.storeAsync done');
-            });
         });
     }
-    // Hello messages are unsolicated multicasts
-    function handleWsdHelloMessages(deviceFoundCallback) {
-        if (g_wsdMulticastSocket) {
-            // chrome.socket.destroy(g_wsdMulticastSocket.socketId);
-            g_wsdMulticastSocket.close();
-            g_wsdMulticastSocket = null;
-        }
-        /*
-            createMulticastSocket("239.255.255.250", 3702, 1, function(socket) {
-                g_wsdMulticastSocket = socket;
-                wsdRecvLoop(socket.socketId, deviceFoundCallback);
-            });
-        */
-        console.log('Joining multicast group: wsd');
-        g_wsdMulticastSocket = new Windows.Networking.Sockets.DatagramSocket();
-        g_wsdMulticastSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback); };
-        g_wsdMulticastSocket.bindServiceNameAsync("3702").done(function () {
-            g_wsdMulticastSocket.joinMulticastGroup(new Windows.Networking.HostName("239.255.255.250"));
-            console.log('Joined multicast group: ssdp');
-        });
-    }
+    Wsd.wsdSearch = wsdSearch;
+    //// Hello messages are unsolicated multicasts
+    //function handleWsdHelloMessages(deviceFoundCallback) {
+    //    if (g_wsdMulticastSocket) {
+    //        // chrome.socket.destroy(g_wsdMulticastSocket.socketId);
+    //        g_wsdMulticastSocket.close();
+    //        g_wsdMulticastSocket = null;
+    //    }
+    //    console.log('Joining multicast group: wsd');
+    //    g_wsdMulticastSocket = new Windows.Networking.Sockets.DatagramSocket();
+    //    g_wsdMulticastSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback) };
+    //    g_wsdMulticastSocket.bindServiceNameAsync("3702").done(function () {
+    //        g_wsdMulticastSocket.joinMulticastGroup(new Windows.Networking.HostName("239.255.255.250"));
+    //        console.log('Joined multicast group: ssdp');
+    //    });
+    //}
     /*
     function onWsdMessageReceived(socketId, deviceFoundCallback) {
     //    console.log("wsdrl("+socketId+"):...");
@@ -162,6 +139,8 @@ var Wsd;
         var remoteAddress = eventArgs.remoteAddress;
         var parser = new DOMParser();
         var xml = parser.parseFromString(message, "text/xml");
+        console.log('WsdMsg From: ' + eventArgs.remoteAddress)
+        console.log('WsdMsg: ' + message)
         var location = Util.getXmlDataForTag(xml, "XAddrs");
         if (location && !g_wsdLocations[location]) {
             g_wsdLocations[location] = true;
@@ -177,23 +156,20 @@ var Wsd;
         var str = WSD_TRANSFER_GET.replace('00000000-0000-0000-0000-000000000000', uuid);
         str = str.replace('uuid:11111111-1111-1111-1111-111111111111', device.endpointReference);
         var xhr = new XMLHttpRequest();
-        //xhr.device = device;
-        //xhr.callback = deviceFoundCallback;
         xhr.open("POST", device.location, true);
         xhr.setRequestHeader('Content-Type', 'application/soap+xml');
         xhr.setRequestHeader('Cache-Control', 'no-cache');
         xhr.setRequestHeader('Pragma', 'no-cache');
         xhr.onreadystatechange = function (eventArgs) {
-            onWsdXMLReadyStateChange(eventArgs, device, deviceFoundCallback);
+            onWsdXMLReadyStateChange(eventArgs, xhr, device, deviceFoundCallback);
         };
         xhr.send(str);
     }
     // Should get a GetResponse following a ws-transfer get request
-    function onWsdXMLReadyStateChange(e, device, deviceFoundCallback) {
-        if (this.readyState == 4) {
-            if (this.status == 200) {
-                var xml = this.responseXML;
-                // var device = this.device;
+    function onWsdXMLReadyStateChange(e, xhr, device, deviceFoundCallback) {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            if (xhr.status == 200) {
+                var xml = xhr.responseXML;
                 // console.log("wstgrsc: responseXML: " + xml);
                 // TODO - get the friendly name, make, model etc from
                 // NB BLOCKED on crbug/238819 : UDP being able to share the wsd port on windows (works on ChromeOS)
@@ -214,7 +190,6 @@ var Wsd;
                 //            console.log(' loc: ' + device.location);     
                 //            console.log(' info: ' + device.friendlyName + " (" + device.manufacturer + " " + device.model + ") [" + device.ip + "]");
                 //            console.log(' purl: ' + device.presentationUrl);  
-                //this.callback(device);
                 deviceFoundCallback(device);
             }
         }
