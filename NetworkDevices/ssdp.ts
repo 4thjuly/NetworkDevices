@@ -1,8 +1,14 @@
 /* Handle all sddp related network stuff */
+
 /// <reference path="./util.ts" />
 /// <reference path="jsUri/jsuri-1.1.1.min.d.ts" />
-var Ssdp;
-(function (Ssdp) {
+
+namespace Ssdp {
+
+    declare var Windows: any;
+    declare var jsUri: any;
+    declare var Uri: any;
+
     // NB COMPAT Bank last line is key to most devices
     var SSDP_DISCOVER = [
         'M-SEARCH * HTTP/1.1',
@@ -12,20 +18,25 @@ var Ssdp;
         'ST: ssdp:all',
         '\r\n'
     ].join('\r\n');
+
     var g_ssdpSearchSocket;
     var g_ssdpMulticastSocket;
     var g_ssdpLocations = {};
+
     // Search for SSDP devices by multicasting an M-SEARCH. 
     // Each device should respond with a NOTIFY that contains a 'LOCATION' URL
     // The LOCATION should provide the various XML properties
     // Call the callback for each device that responds properly
-    function ssdpSearch(deviceFoundCallback) {
-        g_ssdpLocations = {};
+    export function ssdpSearch(deviceFoundCallback) {
+        g_ssdpLocations = { };
+
         if (g_ssdpSearchSocket) {
             g_ssdpSearchSocket.close();
             g_ssdpSearchSocket = null;
         }
+
         //// handleSsdpMulticastMessages(deviceFoundCallback);
+
         // TODO - Listen for multicast
         g_ssdpSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
         var remoteHost = new Windows.Networking.HostName("239.255.255.250");
@@ -42,8 +53,11 @@ var Ssdp;
                 });
             });
         });
+
+
         // g_ssdpSearchSocket.bindEndpointAsync(null, "1900").done(function () {
-        //g_ssdpSearchSocket.joinMulticastGroup(remoteHost);
+            //g_ssdpSearchSocket.joinMulticastGroup(remoteHost);
+
         //    //g_ssdpSearchSocket.getOutputStreamAsync(remoteHost, "1900").done(function (outputStream) {
         //        console.log('ssdp output stream done');
         //        var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
@@ -52,39 +66,44 @@ var Ssdp;
         //            console.log('storeAsync done');
         //        });
         //    //});
+
         //g_ssdpSearchSocket.bindServiceNameAsync("").done(function () {
-        // console.log('ssdp bind done');
+            // console.log('ssdp bind done');
+
         //    g_ssdpSearchSocket.joinMulticastGroup(remoteHost);
-        //g_ssdpSearchSocket.getOutputStreamAsync(remoteHost, "1900").done(function (outputStream) {
-        //    console.log('getOutputStreamAsync done');
-        //    var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
-        //    dataWriter.writeString(SSDP_DISCOVER);
-        //    dataWriter.storeAsync().done(function () {
-        //        console.log('storeAsync done');
-        //    });
+            //g_ssdpSearchSocket.getOutputStreamAsync(remoteHost, "1900").done(function (outputStream) {
+            //    console.log('getOutputStreamAsync done');
+            //    var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
+            //    dataWriter.writeString(SSDP_DISCOVER);
+            //    dataWriter.storeAsync().done(function () {
+            //        console.log('storeAsync done');
+            //    });
+            //});
         //});
-        //});
-    }
-    Ssdp.ssdpSearch = ssdpSearch;
-    ;
+    };
+
     function onSSDPMessageReceived(eventArgs, deviceFoundCallback) {
         var messageLength = eventArgs.getDataReader().unconsumedBufferLength;
         var message = eventArgs.getDataReader().readString(messageLength);
         var ip = eventArgs.remoteAddress;
         //console.log('Message Received: \r\n' + message);
+
         var info = getSsdpDeviceNotifyInfo(message);
-        var location = info["LOCATION"];
+        var location: string = info["LOCATION"];
+
         // TODO - Validate location is absolute
         console.log('onMessageReceived: loc:' + location);
         //console.log('onMessageReceived:  st:' + info["ST"]);
+
         // Got a location, get the xml properties (unless it's a dup)
         if (location && !g_ssdpLocations[location]) {
             g_ssdpLocations[location] = true;
             var device = new Util.Device(location, ip);
             getSsdpDeviceXmlInfo(device, deviceFoundCallback);
         }
-    }
-    ;
+    };
+
+
     function getSsdpDeviceNotifyInfo(data) {
         var lines = data.split("\r\n");
         var info = {};
@@ -97,17 +116,18 @@ var Ssdp;
         }
         return info;
     }
+
     function getSsdpDeviceXmlInfo(device, deviceFoundCallback) {
         var xhr = new XMLHttpRequest();
         var qualifiedLocation = new Uri(device.location);
-        if (!qualifiedLocation.protocol())
-            qualifiedLocation.protocol('http');
+        if (!qualifiedLocation.protocol()) qualifiedLocation.protocol('http');
         xhr.open("GET", qualifiedLocation.toString(), true);
         xhr.onreadystatechange = function (eventArgs) {
             onSsdpXMLReadyStateChange(eventArgs, xhr, device, deviceFoundCallback);
-        };
+        }
         xhr.send();
     }
+
     function onSsdpXMLReadyStateChange(e, xhr, device, deviceFoundCallback) {
         // NB Some devices will refuse to respond
         // if (this.readyState == 4) {
@@ -120,17 +140,20 @@ var Ssdp;
                 device.presentationUrl = Util.getXmlDataForTag(xml, "presentationURL") || Util.getXmlDataForTag(xml, "PresentationURL");
                 if (device.presentationUrl) {
                     device.presentationUrl = Util.fullyQualifyUrl(device.location, device.presentationUrl) || "";
-                }
-                else {
+                } else {
                     device.presentationUrl = "";
                 }
+
                 console.log('ssdp: ' + device.friendlyName + " (" + device.manufacturer + " " + device.model + ") [" + device.ip + "]");
+
                 //            console.log('ssdpxmlrsc: ...');
                 //            console.log(' loc: ' + device.location);     
                 //            console.log(' info: ' + device.friendlyName + " (" + device.manufacturer + " " + device.model + ") [" + device.ip + "]");
                 //            console.log(' purl: ' + device.presentationUrl);   
+
                 deviceFoundCallback(device);
             }
         }
     }
-})(Ssdp || (Ssdp = {}));
+
+}

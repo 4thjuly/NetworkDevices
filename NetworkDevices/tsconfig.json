@@ -1,0 +1,8 @@
+﻿{
+  "files": [
+    "ssdp.ts",
+    "util.ts",
+    "window.ts",
+    "wsd.ts"
+  ]
+}

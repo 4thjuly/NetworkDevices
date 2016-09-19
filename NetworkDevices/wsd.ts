@@ -1,6 +1,9 @@
 /* Handle all WS-DISCOVERY related network stuff */
-var Wsd;
-(function (Wsd) {
+
+namespace Wsd {
+
+    declare var Windows: any;
+
     // ---------------------------------------------------------------------------
     var SOAP_HEADER = '<?xml version="1.0" encoding="utf-8" ?>';
     var WSD_PROBE_MSG = [
@@ -25,6 +28,7 @@ var Wsd;
     ].join('');
     // NB COMPAT Header and msg being separated by a line is important to some devices
     var WSD_PROBE = SOAP_HEADER + '\r\n' + WSD_PROBE_MSG;
+
     var WSD_TRANSFER_GET_MSG = [
         '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">',
         '<soap:Header>',
@@ -43,10 +47,13 @@ var Wsd;
         '</soap:Envelope>'
     ].join('');
     var WSD_TRANSFER_GET = SOAP_HEADER + WSD_TRANSFER_GET_MSG;
+
+
     // ---------------------------------------------------------------------------
     var g_wsdSearchSocket;
     var g_wsdMulticastSocket;
     var g_wsdLocations = {};
+
     // Search for Web Services devices by multicasting an discovery Probe 
     // Each device should respond with a ProbeMatches that contains an XAddrs URL
     // Send a Transfer-Get to the XAddrs should provide the various XML properties
@@ -60,23 +67,26 @@ var Wsd;
         for (var i = 0, strLen = str.length; i < strLen; i++) {
             bufView[i] = str.charCodeAt(i);
         }
+
         if (g_wsdSearchSocket) {
             // chrome.socket.destroy(g_wsdSearchSocket.socketId);
             g_wsdSearchSocket.close();
             g_wsdSearchSocket = null;
         }
-        /*
+
+
+        /*  
             chrome.socket.create("udp", function (socket) {
                 g_wsdSearchSocket = socket;
                 var socketId = socket.socketId;
                 chrome.socket.bind(socketId, "0.0.0.0", 0, function (result) {
                     handleWsdHelloMessages(deviceFoundCallback);
                     chrome.socket.sendTo(socketId, buf, "239.255.255.250", 3702, function (result) {
-                        console.log("wsdSearch wrote:" + + result.bytesWritten);
+                        console.log("wsdSearch wrote:" + + result.bytesWritten);				
                         wsdRecvLoop(socketId, deviceFoundCallback);
                     });
                     // UDP is unreliable so repeat the multicast a few times
-                    var repeat = 3;
+                    var repeat = 3;			
                     var timer = setInterval(function() {
                         console.log('wsdSearch('+repeat+'):...');
                         chrome.socket.sendTo(socketId, buf, "239.255.255.250", 3702, function() { });
@@ -85,10 +95,12 @@ var Wsd;
                 });
             });
         */
+
         handleWsdHelloMessages(deviceFoundCallback);
+
         g_wsdSearchSocket = new Windows.Networking.Sockets.DatagramSocket();
         var ep = new Windows.Networking.EndpointPair(null, null, new Windows.Networking.HostName("239.255.255.250"), "3702");
-        g_wsdSearchSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback); };
+        g_wsdSearchSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback) };
         g_wsdSearchSocket.getOutputStreamAsync(ep).done(function (outputStream) {
             console.log('wsd.getOutputStreamAsync done');
             var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
@@ -97,7 +109,9 @@ var Wsd;
                 console.log('wsd.storeAsync done');
             });
         });
+
     }
+
     // Hello messages are unsolicated multicasts
     function handleWsdHelloMessages(deviceFoundCallback) {
         if (g_wsdMulticastSocket) {
@@ -111,14 +125,16 @@ var Wsd;
                 wsdRecvLoop(socket.socketId, deviceFoundCallback);
             });
         */
+
         console.log('Joining multicast group: wsd');
         g_wsdMulticastSocket = new Windows.Networking.Sockets.DatagramSocket();
-        g_wsdMulticastSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback); };
+        g_wsdMulticastSocket.onmessagereceived = function (eventArgs) { onWsdMessageReceived(eventArgs, deviceFoundCallback) };
         g_wsdMulticastSocket.bindServiceNameAsync("3702").done(function () {
             g_wsdMulticastSocket.joinMulticastGroup(new Windows.Networking.HostName("239.255.255.250"));
             console.log('Joined multicast group: ssdp');
         });
     }
+
     /*
     function onWsdMessageReceived(socketId, deviceFoundCallback) {
     //    console.log("wsdrl("+socketId+"):...");
@@ -153,9 +169,10 @@ var Wsd;
                 // TODO: Handle error -4?
                 console.log("wsdRecvFrom: " + result.resultCode);
             }
-        });
+        });   
     }
     */
+
     function onWsdMessageReceived(eventArgs, deviceFoundCallback) {
         var messageLength = eventArgs.getDataReader().unconsumedBufferLength;
         var message = eventArgs.getDataReader().readString(messageLength);
@@ -167,11 +184,12 @@ var Wsd;
             g_wsdLocations[location] = true;
             // HACK - Just grab the first address if there are multiple
             location = location.split(' ')[0];
-            var endpointReference = Util.getXmlDataForTag(xml, "Address");
+            var endpointReference: string = Util.getXmlDataForTag(xml, "Address");
             var device = new Util.Device(location, remoteAddress, endpointReference);
             getWsdDeviceXmlInfo(device, deviceFoundCallback);
         }
     }
+
     function getWsdDeviceXmlInfo(device, deviceFoundCallback) {
         var uuid = Util.createNewUuid();
         var str = WSD_TRANSFER_GET.replace('00000000-0000-0000-0000-000000000000', uuid);
@@ -185,9 +203,10 @@ var Wsd;
         xhr.setRequestHeader('Pragma', 'no-cache');
         xhr.onreadystatechange = function (eventArgs) {
             onWsdXMLReadyStateChange(eventArgs, device, deviceFoundCallback);
-        };
+        }
         xhr.send(str);
     }
+
     // Should get a GetResponse following a ws-transfer get request
     function onWsdXMLReadyStateChange(e, device, deviceFoundCallback) {
         if (this.readyState == 4) {
@@ -201,6 +220,7 @@ var Wsd;
                 device.model = Util.getXmlDataForTag(xml, 'ModelName');
                 device.presentationUrl = Util.getXmlDataForTag(xml, 'PresentationUrl') || '';
                 device.friendlyName = Util.getXmlDataForTag(xml, 'FriendlyName');
+
                 // Special case: COMPUTER
                 var type = Util.getXmlDataForTag(xml, 'Types');
                 if (type.toLowerCase() == 'pub:computer') {
@@ -209,14 +229,17 @@ var Wsd;
                     device.manufacturer = 'Computer';
                     device.presentationUrl = '';
                 }
+
                 console.log('wsd: ' + device.friendlyName + " (" + device.manufacturer + " " + device.model + ") [" + device.ip + "]");
+
                 //            console.log('wstgrsc: ...');
                 //            console.log(' loc: ' + device.location);     
                 //            console.log(' info: ' + device.friendlyName + " (" + device.manufacturer + " " + device.model + ") [" + device.ip + "]");
                 //            console.log(' purl: ' + device.presentationUrl);  
+
                 //this.callback(device);
                 deviceFoundCallback(device);
             }
         }
     }
-})(Wsd || (Wsd = {}));
+}
