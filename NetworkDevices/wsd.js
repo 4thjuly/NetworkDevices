@@ -47,6 +47,7 @@ var Wsd;
     var g_wsdSearchSocket;
     var g_wsdMulticastSocket;
     var g_wsdLocations = {};
+    // Don't have a test case for this yet
     // Search for Web Services devices by multicasting an discovery Probe 
     // Each device should respond with a ProbeMatches that contains an XAddrs URL
     // Send a Transfer-Get to the XAddrs should provide the various XML properties
@@ -139,8 +140,6 @@ var Wsd;
         var remoteAddress = eventArgs.remoteAddress;
         var parser = new DOMParser();
         var xml = parser.parseFromString(message, "text/xml");
-        console.log('WsdMsg From: ' + eventArgs.remoteAddress)
-        console.log('WsdMsg: ' + message)
         var location = Util.getXmlDataForTag(xml, "XAddrs");
         if (location && !g_wsdLocations[location]) {
             g_wsdLocations[location] = true;
@@ -170,6 +169,7 @@ var Wsd;
         if (xhr.readyState == XMLHttpRequest.DONE) {
             if (xhr.status == 200) {
                 var xml = xhr.responseXML;
+                // var device = this.device;
                 // console.log("wstgrsc: responseXML: " + xml);
                 // TODO - get the friendly name, make, model etc from
                 // NB BLOCKED on crbug/238819 : UDP being able to share the wsd port on windows (works on ChromeOS)
