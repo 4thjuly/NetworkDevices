@@ -95,12 +95,8 @@
     <Content Include="mdns.js" />
     <Content Include="nbt.js" />
     <Content Include="nbtutils.js" />
-    <TypeScriptCompile Include="Scripts\typings\requirejs\require.d.ts" />
     <TypeScriptCompile Include="ssdp.ts" />
     <TypeScriptCompile Include="util.ts" />
-    <Content Include="packages.config" />
-    <Content Include="Scripts\r.js" />
-    <Content Include="Scripts\require.js" />
     <Content Include="tsconfig.json" />
     <Content Include="window.html" />
     <TypeScriptCompile Include="window.ts" />

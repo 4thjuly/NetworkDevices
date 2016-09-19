@@ -2,7 +2,6 @@
 // - Some packets get dropped on ChromeOS due to the firewall. Not sure how to fix.
 // - Remove duplicates (same or null presentation url, same friendly name and IP)
 // - Add mDNS support (printers, computers etc)
-/// <reference path="scripts/typings/requirejs/require.d.ts" />
 /// <reference path="./ssdp.ts" />
 document.addEventListener('DOMContentLoaded', function () {
     console.log("DOM Content Loaded");

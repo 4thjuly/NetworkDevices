@@ -3,7 +3,6 @@
 // - Remove duplicates (same or null presentation url, same friendly name and IP)
 // - Add mDNS support (printers, computers etc)
 
-/// <reference path="scripts/typings/requirejs/require.d.ts" />
 /// <reference path="./ssdp.ts" />
 
 document.addEventListener('DOMContentLoaded', function () {

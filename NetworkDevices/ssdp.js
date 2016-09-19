@@ -42,28 +42,6 @@ var Ssdp;
                 });
             });
         });
-        // g_ssdpSearchSocket.bindEndpointAsync(null, "1900").done(function () {
-        //g_ssdpSearchSocket.joinMulticastGroup(remoteHost);
-        //    //g_ssdpSearchSocket.getOutputStreamAsync(remoteHost, "1900").done(function (outputStream) {
-        //        console.log('ssdp output stream done');
-        //        var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
-        //        dataWriter.writeString(SSDP_DISCOVER);
-        //        dataWriter.storeAsync().done(function () {
-        //            console.log('storeAsync done');
-        //        });
-        //    //});
-        //g_ssdpSearchSocket.bindServiceNameAsync("").done(function () {
-        // console.log('ssdp bind done');
-        //    g_ssdpSearchSocket.joinMulticastGroup(remoteHost);
-        //g_ssdpSearchSocket.getOutputStreamAsync(remoteHost, "1900").done(function (outputStream) {
-        //    console.log('getOutputStreamAsync done');
-        //    var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream);
-        //    dataWriter.writeString(SSDP_DISCOVER);
-        //    dataWriter.storeAsync().done(function () {
-        //        console.log('storeAsync done');
-        //    });
-        //});
-        //});
     }
     Ssdp.ssdpSearch = ssdpSearch;
     ;
